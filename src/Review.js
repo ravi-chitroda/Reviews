@@ -6,6 +6,34 @@ import { FaQuoteRight, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const Review = () => {
   const [index, setIndex] = useState(1); //whenever "index state changed below detail in people will be change as we pass "index" to the people
   const { name, job, image, text } = people[index];
+
+  //for if we click on prev or next button if first and last person respectively than gives an error as no person available before previous(-1) and after last person
+  const checkNumber = (number) => {
+    if (number > people.length - 1) {
+      return 0;
+    }
+    if (number < 0) {
+      return people.length - 1;
+    }
+    return number;
+  };
+
+  //for next person quotes
+  const nextPerson = () => {
+    setIndex((index) => {
+      let newIndex = index + 1;
+      return checkNumber(newIndex);
+    });
+  };
+
+  //   for previous person quotes
+  const prevPerson = () => {
+    setIndex((index) => {
+      let newIndex = index - 1;
+      return checkNumber(newIndex);
+    });
+  };
+
   return (
     <article className="review">
       <div className="img-container">
@@ -18,10 +46,10 @@ const Review = () => {
       <p className="job">{job}</p>
       <p className="info">{text}</p>
       <div>
-        <button className="prev-btn">
+        <button className="prev-btn" onClick={prevPerson}>
           <FaChevronLeft />
         </button>
-        <button className="next-btn">
+        <button className="next-btn" onClick={nextPerson}>
           <FaChevronRight />
         </button>
         <button className="random-btn">Surprise Me</button>
